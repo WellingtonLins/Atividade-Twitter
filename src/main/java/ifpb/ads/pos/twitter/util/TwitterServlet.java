@@ -28,7 +28,7 @@ import javax.ws.rs.core.Response;
  * @author Ricardo Job
  */
 @WebServlet(name = "Twitter", urlPatterns = {"/twitter"})
-public class Twitter extends HttpServlet {
+public class TwitterServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
