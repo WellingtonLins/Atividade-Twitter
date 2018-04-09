@@ -36,11 +36,11 @@ public class TwitterFilter implements Filter {
 
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse res = (HttpServletResponse) response;
-        Credentials c = (Credentials) req.getSession().getAttribute("token");
+        Credentials credentials = (Credentials) req.getSession().getAttribute("token");
 
-        if (c == null) {
-            c = new Credentials("", "");
-            AuthenticatorOfTwitter authenticator = new AuthenticatorOfTwitter(c);
+        if (credentials == null) {
+            credentials = new Credentials("", "");
+            AuthenticatorOfTwitter authenticator = new AuthenticatorOfTwitter(credentials);
             EndpointInTwitter endpoint = new EndpointInTwitter("POST", "https://api.twitter.com/oauth/request_token");
             String authorization = authenticator.in(endpoint).authenticate();
             Client newBuilder = ClientBuilder.newBuilder().build();
