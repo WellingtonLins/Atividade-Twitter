@@ -1,4 +1,4 @@
-# SOAPExercicio
+# ProjetoTwitter
    
  A aplicação consiste em um sistema composto por dois módulos: um para autenticação, para permitir a autenticação dos usuários; e, um módulo web, para listagem do ranking dos dez mais.
 

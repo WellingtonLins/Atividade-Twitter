@@ -1,24 +1,54 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      >
     <h:head>
         <title>Timeline</title>
     </h:head>
     <h:body>
+        <h1>
+            Bem vindo ao Ranking Twitter!           
+        </h1>
+
         <h:form>
-            <h:inputText value="#{controladorTwitter.tuite}" />
-            <h:commandButton value="tuitar" action="#{controladorTwitter.tuitar()}" />
-            <h:dataTable value="#{controladorTwitter.todos()}" var="t1">
+
+<!--            <h:dataTable value="#{controladorTwitter.todos()}" var="t1">
+
                 <h:column>
-                    <h:commandButton value="excluir" action="#{controladorTwitter.excluir(t1)}" />
+                    <f:facet name="header"> 
+                        <h:outputText value="ID" /> 
+                    </f:facet> 
+                    <h:outputText value="#{t1.id}"/>
                 </h:column>
-                
                 <h:column>
-                    <h:outputText value="#{t1.text}"/>
+                    <f:facet name="header"> 
+                        <h:outputText value="NAME" /> 
+                    </f:facet> 
+                    <h:outputText value="#{t1.name}"/>
                 </h:column>
-                
-            </h:dataTable>
+                <h:column>
+                <f:facet name="header"> 
+                    <h:outputText value="SEGUIDORES" /> 
+                </f:facet> 
+                    <h:outputText value="#{t1.followers_count}"/>
+                </h:column>
+                <h:column>
+                      <f:facet name="header"> 
+                    <h:outputText value="QDT AMIGOS" /> 
+                </f:facet> 
+                    <h:outputText value="#{t1.friends_count}"/>
+                </h:column>
+
+            </h:dataTable>-->
+            <h:outputText  value="#{controladorTwitter.todos()}" />
+              
+      
+            
+            
+            
         </h:form>
     </h:body>
 </html>
