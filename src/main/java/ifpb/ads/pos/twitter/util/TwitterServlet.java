@@ -43,7 +43,7 @@ public class TwitterServlet extends HttpServlet {
         Credentials credentialsAuthenticated = new Credentials(token, verifier);
 
         request.getSession().setAttribute("token", credentialsAuthenticated);
-        response.sendRedirect("http://192.168.99.100:8080/ProjetoTwitter/faces/timeline.xhtml");
+        response.sendRedirect("http://localhost:8080/ProjetoTwitter/faces/timeline.xhtml");
 
 //        readTimeline(credentialsAuthenticated, builder);
 //        updateTimeline(credentialsAuthenticated, builder);

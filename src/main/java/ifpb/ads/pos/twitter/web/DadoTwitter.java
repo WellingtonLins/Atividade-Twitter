@@ -8,10 +8,10 @@ public class DadoTwitter {
   private String  from;//Logged user name
   private int fromId;//Logged user id
   private String tweetId; 
-  private String userId;// User that has been Influenced
-  private Tipo tipo; 
+  private String userId;// User that has been influenced
+  private boolean tipo; 
 
-    public DadoTwitter(String from, int fromId, String tweetId, String userId, Tipo tipo) {
+    public DadoTwitter(String from, int fromId, String tweetId, String userId, boolean tipo) {
         this.from = from;
         this.fromId = fromId;
         this.tweetId = tweetId;
@@ -52,17 +52,19 @@ public class DadoTwitter {
         this.userId = userId;
     }
 
-    public Tipo getTipo() {
+    public boolean isTipo() {
         return tipo;
     }
 
-    public void setTipo(Tipo tipo) {
+    public void setTipo(boolean tipo) {
         this.tipo = tipo;
     }
-  
+
   
 
-   
-
+    @Override
+    public String toString() {
+        return "DadoTwitter{" + "from=" + from + ", fromId=" + fromId + ", tweetId=" + tweetId + ", userId=" + userId + ", tipo=" + tipo + '}';
+    }
 
 }

@@ -3,9 +3,13 @@ package ifpb.ads.pos.twitter.web;
 import ifpb.ads.pos.twitter.AuthenticatorOfTwitter;
 import ifpb.ads.pos.twitter.Credentials;
 import ifpb.ads.pos.twitter.EndpointInTwitter;
+import java.io.IOException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.json.JsonArray;
@@ -22,23 +26,23 @@ import javax.ws.rs.core.Response;
  * @mail ricardo.job@ifpb.edu.br
  * @since 20/02/2018, 14:15:17
  */
-@Named
+@Named("controladorTwitter")
 @RequestScoped
 public class ControladorTwitter {
 
-
     private Client builder = ClientBuilder.newClient();
 
-//    public List<Friend> todos() {
-    public String todos() {
+    public List<DadoTwitter> todos() {
+//    public String todos() {
 //        return readmentions_timeline(getCredentials());
         return readTimeline(getCredentials());
 //        return readTimelineFriends(getCredentials());
     }
-
-
-    private String readTimeline(Credentials c) {
-//    private List<Twitter> readTimeline(Credentials c) {
+  public String redirect() {
+       return redirect(getCredentials());
+    }
+ 
+    private List<DadoTwitter> readTimeline(Credentials c) {
 
         AuthenticatorOfTwitter authenticator = new AuthenticatorOfTwitter(c);
         EndpointInTwitter endpoint = new EndpointInTwitter("GET", "https://api.twitter.com/1.1/statuses/user_timeline.json");
@@ -48,17 +52,42 @@ public class ControladorTwitter {
         Response time = timelineTarget.request().accept(MediaType.APPLICATION_JSON)
                 .header("Authorization", headerAuthorization)
                 .get();
-            String readEntity = time.readEntity(String.class);
-     
-//        JsonArray readEntity = time.readEntity(JsonArray.class);
-//        return readEntity.getValuesAs(JsonObject.class)
-//                .stream()
-//                .map((JsonObject t) -> new Twitter(t.getString("id_str"), t.getString("text")))
-//                .collect(Collectors.toList());
-//    String readEntity = time.readEntity(String.class);
-     
-        return readEntity;
+
+        JsonArray readEntity = time.readEntity(JsonArray.class);
+        System.out.print(readEntity);
+        return readEntity.getValuesAs(JsonObject.class)
+                .stream()
+                .map((JsonObject t) -> new DadoTwitter(t.getJsonObject("user").getString("name"),
+                t.getJsonObject("user").getInt("id"), t.getString("id_str"),
+                t.getString("text"), t.getBoolean("retweeted")))
+                .collect(Collectors.toList());
+
     }
+  
+    public String redirect(Credentials c) {
+
+            AuthenticatorOfTwitter authenticator = new AuthenticatorOfTwitter(c);
+
+//            EndpointInTwitter endpoint = new EndpointInTwitter("GET", "https://api.twitter.com/1.1/followers/ids.json?cursor=-1&screen_name=joenihon&count=5000");
+            EndpointInTwitter endpoint = new EndpointInTwitter("GET", "https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name=joenihon&max_id=50");
+            String headerAuthorization = authenticator.in(endpoint).authenticate();
+
+            WebTarget timelineTarget = builder.target("https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name=joenihon&max_id=50");
+            Response time = timelineTarget.request().accept(MediaType.APPLICATION_JSON)
+                    .header("Authorization", headerAuthorization)
+                    .get();
+   
+ 
+
+         String readEntity = time.readEntity(String.class);
+              System.out.print(readEntity);
+            return  readEntity;
+            
+            
+            
+    }
+
+
     private List<Friend> readTimelineFriends(Credentials c) {
 
         AuthenticatorOfTwitter authenticator = new AuthenticatorOfTwitter(c);
@@ -70,40 +99,15 @@ public class ControladorTwitter {
                 .header("Authorization", headerAuthorization)
                 .get();
         JsonObject readEntity = time.readEntity(JsonObject.class);
-        
+
         JsonArray jsonArray = readEntity.getJsonArray("users");
 
         return jsonArray.getValuesAs(JsonObject.class)
                 .stream()
                 .map((JsonObject t) -> new Friend(t.getInt("id"), t.getString("name"),
-                t.getInt("followers_count"),  t.getInt("friends_count")))
+                t.getInt("followers_count"), t.getInt("friends_count")))
                 .collect(Collectors.toList());
-  
-    }
-        
-    private String readmentions_timeline(Credentials c) {
 
-        AuthenticatorOfTwitter authenticator = new AuthenticatorOfTwitter(c);
-        EndpointInTwitter endpoint = new EndpointInTwitter("GET", "https://api.twitter.com/1.1/statuses/mentions_timeline.json");
-        String headerAuthorization = authenticator.in(endpoint).authenticate();
-
-        WebTarget timelineTarget = builder.target("https://api.twitter.com/1.1/statuses/mentions_timeline.json");
-        Response time = timelineTarget.request().accept(MediaType.APPLICATION_JSON)
-                .header("Authorization", headerAuthorization)
-                .get();
-//        JsonArray readEntity = time.readEntity(JsonArray.class);
-        String readEntity = time.readEntity(String.class);
-     
-        return readEntity;
-//                .stream()
-////                .peek((JsonObject t) -> {
-////                    JsonObject jsonObject = t.getJsonObject("entities");
-//////                    System.out.print(jsonObject.getString("id_str"));
-////                    System.out.print(" "+jsonObject);
-//////                    System.out.println(" - "+jsonObject.getJsonArray("user_mentions"));
-////                })
-//                .map((JsonObject t) -> new Twitter(t.getString("id_str"),t.getString("user_mentions")))
-//                .collect(Collectors.toList());
     }
 
     private Credentials getCredentials() {

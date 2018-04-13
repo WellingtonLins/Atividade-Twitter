@@ -10,6 +10,10 @@ public class Friend {
     private int followers_count;
     private int friends_count;  
 
+    public Friend(int id) {
+        this.id = id;
+    }
+
     
     public Friend(int id, String name, int followers_count, int friends_count) {
         this.id = id;

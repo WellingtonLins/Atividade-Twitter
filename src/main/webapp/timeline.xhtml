@@ -9,47 +9,50 @@
         <title>Timeline</title>
     </h:head>
     <h:body>
-        <h1>
-            Bem vindo ao Ranking Twitter!           
-        </h1>
 
-        <h:form>
 
-<!--            <h:dataTable value="#{controladorTwitter.todos()}" var="t1">
+<!--        <h:form>
+
+            <h:dataTable value="#{controladorTwitter.todos()}" var="t1">
 
                 <h:column>
                     <f:facet name="header"> 
-                        <h:outputText value="ID" /> 
+                        <h:outputText value="from" /> 
                     </f:facet> 
-                    <h:outputText value="#{t1.id}"/>
+                    <h:outputText value="#{t1.from}"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header"> 
-                        <h:outputText value="NAME" /> 
+                        <h:outputText value="fromid" /> 
                     </f:facet> 
-                    <h:outputText value="#{t1.name}"/>
+                    <h:outputText value="#{t1.fromId}"/>
                 </h:column>
                 <h:column>
-                <f:facet name="header"> 
-                    <h:outputText value="SEGUIDORES" /> 
-                </f:facet> 
-                    <h:outputText value="#{t1.followers_count}"/>
+                    <f:facet name="header"> 
+                        <h:outputText value="tweetid" /> 
+                    </f:facet> 
+                    <h:outputText value="#{t1.tweetId}"/>
                 </h:column>
                 <h:column>
-                      <f:facet name="header"> 
-                    <h:outputText value="QDT AMIGOS" /> 
-                </f:facet> 
-                    <h:outputText value="#{t1.friends_count}"/>
+                    <f:facet name="header"> 
+                        <h:outputText value="texto" /> 
+                    </f:facet> 
+                    <h:outputText value="#{t1.userId}"/>
                 </h:column>
 
-            </h:dataTable>-->
-            <h:outputText  value="#{controladorTwitter.todos()}" />
-              
-      
-            
-            
-            
-        </h:form>
+                <h:column>
+                    <f:facet name="header"> 
+                        <h:outputText value="tipo" /> 
+                    </f:facet> 
+                    <h:outputText value="#{t1.tipo}"/>
+                </h:column>
+
+            </h:dataTable>
+
+        </h:form>-->
+
+    <h:outputText value="#{controladorTwitter.redirect()}" />
+
     </h:body>
 </html>
 
